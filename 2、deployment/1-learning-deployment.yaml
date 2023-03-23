@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: learning-deployment
+  labels:
+    app: docker-getting-started
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: docker-getting-started
+  template:
+    metadata:
+      labels:
+        app: docker-getting-started
+    spec:
+      containers:
+      - name: docker-getting-started
+        image: docker/getting-started:latest
+        ports:
+        - containerPort: 80

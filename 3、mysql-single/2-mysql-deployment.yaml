@@ -1,0 +1,85 @@
+apiVersion: v1
+
+kind: Service
+
+metadata:
+
+  name: mysql-single
+
+spec:
+
+  ports:
+
+  - port: 3306
+
+  selector:
+
+    app: mysql-single
+
+  clusterIP: None
+
+---
+
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+
+  name: mysql-single
+
+spec:
+
+  selector:
+
+    matchLabels:
+
+      app: mysql-single
+
+  strategy:
+
+    type: Recreate
+
+  template:
+
+    metadata:
+
+      labels:
+
+        app: mysql-single
+
+    spec:
+
+      containers:
+
+      - image: mysql:5.6
+
+        name: mysql-single
+
+        env:
+
+          # 在实际中使用 secret
+
+        - name: MYSQL_ROOT_PASSWORD
+
+          value: password
+
+        ports:
+
+        - containerPort: 3306
+
+          name: mysql
+
+        volumeMounts:
+
+        - name: mysql-persistent-storage
+
+          mountPath: /var/lib/mysql
+
+      volumes:
+
+      - name: mysql-persistent-storage
+
+        persistentVolumeClaim:
+
+          claimName: mysql-single-pv-claim
