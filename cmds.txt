@@ -1,5 +1,5 @@
 kubectl port-forward svc/phpmyadmin-service 8081:8081
 
 .\krew install krew（管理员权限）
-
+kubectl krew install ingress-nginx
 

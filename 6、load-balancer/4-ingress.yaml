@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+
+kind: Ingress
+
+metadata:
+
+  name: phpmyadmin-ingress
+
+  annotations:
+
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    kubernetes.io/ingress.class: "nginx"
+
+spec:
+
+  rules:
+
+    - host: localhost
+
+      http:
+
+        paths:
+
+          - path: /phpmyadmin
+
+            pathType: Prefix
+
+            backend:
+
+              service:
+
+                name: phpmyadmin-service-ci
+
+                port:
+
+                  number: 8081
